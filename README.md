@@ -1,20 +1,10 @@
-# xbutil-gui
-A Python Tkinter GUI for Xilinx Vitis xbutil program
+# proc-mem-monitor
+A Python Tkinter GUI for monitoring total memory usage of commands matching
+specified pattern
 
 # Installation
 ## OS
-xbutil-gui has been tested on CentOS 7.8 and Ubuntu 16.04.
-
-## Xilinx XRT
-[Xilinx XRT](https://github.com/Xilinx/XRT) version 2.8.0 or newer is required 
-on every host with Xilinx Alveo Accelerator Cards.
-
-## SSH authentication key
-xubtil-gui supports scaning hosts within a cluster. All hosts in the cluster
-need to have SSH authentication key set up so you can run commands on remote
-hosts with your username and without password. Follow instructions 
-on the [SSH Login without password](https://github.com/jimw567/xbutil-gui/wiki/SSH-login-without-password) page to set up SSH authentication key.
-
+proc-mem-monitor has been tested on CentOS 7.8 and Ubuntu 16.04.
 
 ## Python
 This program requires Python 3.6 or newer to run. 
@@ -45,21 +35,16 @@ python3.6 -m venv venv
 ## Install required Python packages
 `pip install -r requirements.txt`
 
-## Install xbutil-gui
+## Install proc-mem-monitor
 `python setup.py develop`
 
 ## Run xbutil-gui
-`xbutil_gui`
+`proc_mem_monitor`
 
 # Snapshots
-## Main window showing all hosts/devices/compute units in a cluster
-![image](https://user-images.githubusercontent.com/24323762/108950146-9a024780-761a-11eb-92e7-1ad8df0409d5.png)
+## Main window showing all commands matching the pattern
+![image](https://user-images.githubusercontent.com/24323762/109429158-33c94c00-79af-11eb-9883-ba7668fa510d.png)
 
-## top window
-![image](https://user-images.githubusercontent.com/24323762/108950267-c7e78c00-761a-11eb-818e-99faac6baaea.png)
+## Memory usage plot
+![image](https://user-images.githubusercontent.com/24323762/109429189-5491a180-79af-11eb-930a-7346b6ae074f.png)
 
-## Power/temperature plot
-![image](https://user-images.githubusercontent.com/24323762/108950304-d766d500-761a-11eb-87aa-d407ae2e1f29.png)
-
-## Vccint/Iccint plot
-![image](https://user-images.githubusercontent.com/24323762/108950325-e2ba0080-761a-11eb-8392-d220b9e90634.png)
