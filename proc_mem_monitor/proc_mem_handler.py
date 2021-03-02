@@ -5,7 +5,7 @@ import json
 import re
 
 def get_mem_usages(pattern, host='localhost'):
-    ps_command = ['ps', 'ax', '-o', 'pid,%cpu,rss,cmd']
+    ps_command = ['ps', 'ax', '--sort', '-rss', '-o', 'pid,%cpu,rss,cmd']
     if host == 'localhost':
         # ps -o pid,rss,cmd 273899
         command =  ps_command

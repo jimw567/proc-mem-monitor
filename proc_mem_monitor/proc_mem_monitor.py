@@ -10,6 +10,7 @@ import shutil
 import datetime
 import argparse
 from pathlib import Path
+import socket
 
 from proc_mem_monitor.proc_mem_plot import ProcMemPlot
 from proc_mem_monitor.proc_mem_handler import get_mem_usages
@@ -19,8 +20,8 @@ from proc_mem_monitor import VERSION, LABEL_WIDTH, COMBO_WIDTH, STATUS_CODES, \
                 SHEET_LAST_UPDATED_COL
 
 
-auto_refresh_plot_seconds = 0
-proc_mem_plot = ProcMemPlot()
+hostname = socket.gethostname()
+proc_mem_plot = ProcMemPlot(hostname)
 
 
 def show_plot_window():
@@ -30,9 +31,10 @@ def show_plot_window():
 ###############################################################################
 # root window
 ###############################################################################
+
 root_window = tk.Tk()
 root_window.geometry('1200x400+20+20')
-root_window.title('Process Memory Monitor ' + VERSION)
+root_window.title('Process Memory Monitor ' + VERSION + ' - ' + hostname)
 root_window_icon = tk.PhotoImage(file=str(__icon__))
 root_window.iconphoto(True, root_window_icon)
 root_window.grid_columnconfigure(0, weight=0)
@@ -76,15 +78,15 @@ sheet_proc.enable_bindings(("single_select",  # "single_select" or "toggle_selec
                             "edit_cell"))
 sheet_proc.grid(row=cur_grid_row, columnspan=4, sticky='nswe')
 root_window.grid_rowconfigure(cur_grid_row, weight=1)
-sheet_proc.set_cell_data(0, 0, 'PID')
-sheet_proc.set_cell_data(0, 1, '%CPU')
-sheet_proc.set_cell_data(0, 2, 'RSS(GB)')
-sheet_proc.set_cell_data(0, 3, 'CMD')
-sheet_proc.set_cell_data(0, 4, 'Last Updated')
+sheet_proc.set_cell_data(0, SHEET_PID_COL, 'PID')
+sheet_proc.set_cell_data(0, SHEET_CPU_COL, '%CPU')
+sheet_proc.set_cell_data(0, SHEET_RSS_COL, 'RSS(GB)')
+sheet_proc.set_cell_data(0, SHEET_CMD_COL, 'CMD')
+sheet_proc.set_cell_data(0, SHEET_LAST_UPDATED_COL, 'Last Updated')
 sheet_proc.column_width(column=SHEET_PID_COL, width=150)
 sheet_proc.column_width(column=SHEET_CPU_COL, width=100)
 sheet_proc.column_width(column=SHEET_RSS_COL, width=100)
-sheet_proc.column_width(column=SHEET_CMD_COL, width=400)
+sheet_proc.column_width(column=SHEET_CMD_COL, width=450)
 sheet_proc.column_width(column=SHEET_LAST_UPDATED_COL, width=200)
 cur_grid_row = cur_grid_row + 1
 sheet_proc_last_row = 0
@@ -111,11 +113,11 @@ def update_sheet_proc(mem_usage):
     if sheet_proc_last_row > row:
         # clear contents from previous dump
         for r in range(row, sheet_proc_last_row+1):
-            sheet_proc.set_cell_data(r, SHEET_PID_COL, k)
-            sheet_proc.set_cell_data(r, SHEET_CPU_COL, mem_usage[k]['cpu'])
-            sheet_proc.set_cell_data(r, SHEET_RSS_COL, mem_usage[k]['rss'])
-            sheet_proc.set_cell_data(r, SHEET_CMD_COL, mem_usage[k]['cmd'])
-            sheet_proc.set_cell_data(r, SHEET_LAST_UPDATED_COL, last_udpated)
+            sheet_proc.set_cell_data(r, SHEET_PID_COL, '')
+            sheet_proc.set_cell_data(r, SHEET_CPU_COL, '')
+            sheet_proc.set_cell_data(r, SHEET_RSS_COL, '')
+            sheet_proc.set_cell_data(r, SHEET_CMD_COL, '')
+            sheet_proc.set_cell_data(r, SHEET_LAST_UPDATED_COL, '')
 
     # udpate the last row count and refresh the sheet
     sheet_proc_last_row = row - 1
@@ -124,7 +126,7 @@ def update_sheet_proc(mem_usage):
 
 # refresh database every DEFAULT_REFRESH_INTERVAL seconds
 def refresh_database():
-    global patterns, auto_refresh_sheet_row, auto_refresh_plot_seconds
+    global patterns
 
     selected_pattern = combo_pattern.current()
     pattern = patterns[selected_pattern]
@@ -140,7 +142,7 @@ def refresh_database():
 
 
 def main():
-    global prev_pattern, patterns, sheet_proc_last_row
+    global prev_pattern, patterns
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--config-file', dest='config_file', default=None,
@@ -157,6 +159,13 @@ def main():
 
     with open(config_file, 'r') as fp:
         config_dict = json.load(fp)
+
+    # get total memory
+    command = ['free', '-g']
+    p = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    free_out = p.stdout.read().decode('utf-8')
+    mem_line = free_out.strip().split('\n')[1]
+    proc_mem_plot.total_mem = int(mem_line.split()[1])
 
     patterns = config_dict.get('patterns', [])
     combo_pattern['values'] = patterns
