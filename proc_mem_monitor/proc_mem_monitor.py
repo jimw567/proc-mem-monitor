@@ -44,10 +44,10 @@ root_window.grid_columnconfigure(3, weight=1)
 
 cur_grid_row = 0
 label_pattern = ttk.Label(root_window, text="Command Pattern", width=LABEL_WIDTH, anchor='w')
-label_pattern.grid(row=cur_grid_row, column=0,  sticky='w')
+label_pattern.grid(row=cur_grid_row, column=0,  sticky='w', pady=10)
 combo_pattern = ttk.Combobox(root_window, width=COMBO_WIDTH)
 combo_pattern['values'] = []
-combo_pattern.grid(row=cur_grid_row, column=1, sticky='w')
+combo_pattern.grid(row=cur_grid_row, column=1, sticky='w', pady=10)
 cur_grid_row = cur_grid_row + 1
 
 # sheet for pattern
@@ -93,7 +93,7 @@ sheet_proc_last_row = 0
 
 # command buttons
 button_plot = ttk.Button(root_window, text="Plot", command=show_plot_window)
-button_plot.grid(row=cur_grid_row, column=1)
+button_plot.grid(row=cur_grid_row, column=1, pady=10)
 cur_grid_row = cur_grid_row + 1
 
 
@@ -119,8 +119,9 @@ def update_sheet_proc(mem_usage):
             sheet_proc.set_cell_data(r, SHEET_CMD_COL, '')
             sheet_proc.set_cell_data(r, SHEET_LAST_UPDATED_COL, '')
 
-    # udpate the last row count and refresh the sheet
-    sheet_proc_last_row = row - 1
+    # udpate the last row count
+    sheet_proc_last_row = row
+
     sheet_proc.refresh()
 
 
@@ -128,8 +129,9 @@ def update_sheet_proc(mem_usage):
 def refresh_database():
     global patterns
 
-    selected_pattern = combo_pattern.current()
-    pattern = patterns[selected_pattern]
+    #selected_pattern = combo_pattern.current()
+    #pattern = patterns[selected_pattern]
+    pattern = combo_pattern.get()
     mem_usages = get_mem_usages(pattern)
 
     if mem_usages is not None:
