@@ -42,9 +42,4 @@ python3.6 -m venv venv
 `proc_mem_monitor`
 
 # Snapshots
-## Main window showing all commands matching the pattern
-![image](https://user-images.githubusercontent.com/24323762/109429158-33c94c00-79af-11eb-9883-ba7668fa510d.png)
-
-## Memory usage plot
-![image](https://user-images.githubusercontent.com/24323762/109429189-5491a180-79af-11eb-930a-7346b6ae074f.png)
-
+![image](https://user-images.githubusercontent.com/24323762/111917693-a8d3f280-8a3e-11eb-885a-a261787acc54.png)

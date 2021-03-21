@@ -20,7 +20,8 @@ from proc_mem_monitor import VERSION, LABEL_WIDTH, COMBO_WIDTH, STATUS_CODES, \
                 SHEET_LAST_UPDATED_COL
 
 
-hostname = socket.gethostname()
+#hostname = socket.gethostname()
+hostname = 'host1'
 proc_mem_plot = ProcMemPlot(hostname)
 
 
@@ -44,7 +45,7 @@ root_window.grid_columnconfigure(3, weight=1)
 
 cur_grid_row = 0
 label_pattern = ttk.Label(root_window, text="Command Pattern", width=LABEL_WIDTH, anchor='w')
-label_pattern.grid(row=cur_grid_row, column=0,  sticky='w', pady=10)
+label_pattern.grid(row=cur_grid_row, column=0,  sticky='w', padx=10, pady=10)
 combo_pattern = ttk.Combobox(root_window, width=COMBO_WIDTH)
 combo_pattern['values'] = []
 combo_pattern.grid(row=cur_grid_row, column=1, sticky='w', pady=10)

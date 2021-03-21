@@ -81,7 +81,7 @@ class ProcMemPlot:
 
         cur_grid_row = 0
         self.label_period = ttk.Label(self.window_plot, text="Period", width=LABEL_WIDTH, anchor='w')
-        self.label_period.grid(row=cur_grid_row, column=0,  sticky='w', pady=10)
+        self.label_period.grid(row=cur_grid_row, column=0,  sticky='w', padx=10, pady=10)
         self.combo_period = ttk.Combobox(self.window_plot, width=COMBO_WIDTH)
         self.combo_period['values'] = ['Last 1 hour', 'Last 4 hours', 'Last 8 hours',
                                        'Last 24 hours', 'All history'] 
