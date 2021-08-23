@@ -9,7 +9,7 @@ if sys.version_info[0] < 2 or (sys.version_info[0] == 3 and sys.version_info[1] 
              '.'.join(map(str, sys.version_info[0:3])))
 
 PROGRAM_NAME = 'Process Memory Monitor'
-VERSION = '0.0.1'
+VERSION = '0.0.2'
 LABEL_WIDTH = 15
 COMBO_WIDTH = 50
 FIGURE_DPI = 100

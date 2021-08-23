@@ -117,7 +117,7 @@ class ProcMemPlot:
             self.time_hist['rss_total'] = []
             self.mem_hist['rss_total'] = []
 
-        cur_time = datetime.datetime.now().strftime("%m/%d %H:%M")
+        cur_time = datetime.datetime.now().strftime("%m/%d %H:%M:%S")
         self.time_hist['rss_total'].append(cur_time)
         self.mem_hist['rss_total'].append(mem_usages['rss_total']['rss'])
         if mem_usages['rss_total']['rss'] > self.peak_mem:
