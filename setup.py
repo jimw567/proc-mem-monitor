@@ -44,8 +44,10 @@ setuptools.setup(
     description="Process Memory Monitor",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/jimw567/xbutil-gui",
+    url="https://github.com/jimw567/proc-mem-monitor",
     packages=['proc_mem_monitor'],
+    install_requires=['pandas', 'matplotlib', 'tksheet'],
+    include_package_data=True,
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
